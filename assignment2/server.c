@@ -77,15 +77,15 @@ int main(int argc, char const *argv[])
             } else {
                 char stringSocket[16]; 
                 sprintf(stringSocket, "%d", new_socket);
-                char *params[] = {"child", stringSocket};
+                char *params[] = {"child", stringSocket}; //will set argc == 3? or 2 not sure
                 if (execvp(argv[0], params) == -1) {
                     perror("execvp error");
                     exit(EXIT_FAILURE);
                 }
             }
         }
-    } else {
-        sscanf(argv[1], "%d", &new_socket);
+    } else { //just calling the program by itself results in argc == 1, so the else block would be in situations where you add arguments
+        sscanf(argv[1], "%d", &new_socket); //scan the socket from the list of arguments
         valread = read(new_socket, buffer, 1024);
         printf("Read %d bytes: %s\n", valread, buffer);
         send(new_socket, hello, strlen(hello), 0);
